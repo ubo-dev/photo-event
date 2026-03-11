@@ -9,19 +9,19 @@ class UserRepository:
     def __init__(self, db: Session):
         self.db = db
     
-    def get_by_email(self, email: str) -> User | None:
+    async def get_by_email(self, email: str) -> User | None:
         result = self.db.execute(
             select(User).where(User.email == email) # sqli böyle yazıyoruz model ile 
         )
         return result.scalar_one_or_none() # return or null gibi yapi
     
-    def get_by_id(self, id: uuid) -> User | None:
+    async def get_by_id(self, id: uuid) -> User | None:
         result = self.db.execute(
             select(User).where(User.id == id)
         )
         return result.scalar_one_or_none()
     
-    def create(self, user: User) -> User:
+    async def create(self, user: User) -> User:
         self.db.add(user)
         self.db.commit()
         self.db.refresh()

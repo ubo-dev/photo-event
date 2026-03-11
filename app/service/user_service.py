@@ -12,7 +12,7 @@ class UserService:
     def __init__(self, db: Session):
         self.repository = UserRepository(db)
         
-    def create_user(self, user: UserCreate):
+    async def create_user(self, user: UserCreate):
         existing_user = self.repository.get_by_email(user.email)
         if existing_user:
             raise HTTPException(status_code=400, detail="This email already registered!")
